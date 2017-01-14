@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Thank you!</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    <body>
+
+        <h1>Thank you! You are now logged in!</h1>
+
+        <p>Your address:</p>
+        <p><span th:text="${address}"> </span></p>
+        
+        <p>Update your address:</p>
+        <form th:action="@{/updateaddress}" method="post">
+            <p>Username:<input type="text" name="username"></input></p>
+            <p>New address:<input type="text" name="address"></input></p>
+            <input type="submit" value="Update address"/>
+        </form>
+        
+        <p>Update your password:</p>
+        <form th:action="@{/updatepassword}" method="post">
+            <p>Username:<input type="text" name="username"></input></p>
+            <p>New password:<input type="password" name="password"></input></p>
+            <input type="submit" value="Update password"/>
+        </form>
+
+        <p>Delete your order/account/signup:</p>
+        <form th:action="@{/deleteme}" method="post">
+            <p>Username:<input type="text" name="username"></input></p>
+            <input type="submit" value="Delete my account"/>
+        </form>
+
+        <p>Logout:</p>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="logout"/>
+        </form>
+        
+    </body>
+</html>

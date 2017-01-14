@@ -1,0 +1,89 @@
+
+
+Starter code modified to change and add functionality, as per instructions on
+https://cybersecuritybase.github.io/project/
+
+Code uploaded to 
+
+
+The following vulnerabilities from the "OWASP Top 10 2013 vulnerabilities"
+have been inserted into the web application code:
+
+
+  (1) Top 10 2013-A5-Security Misconfiguration
+
+  * 'admin' account with default (factory-set) password exists
+
+Logging in as 'admin' will show all signed-up users. User 'admin' can then
+delete any account.
+
+Fix: Change the default password '1234' to something more complicated before starting
+the app.
+
+#######################################################################################
+
+  (2) Top 10 2013-A2-Broken Authentication and Session Management
+  (3) Top 10 2013-A4-Insecure Direct Object References
+  (4) Top 10 2013-A6-Sensitive Data Exposure
+  (5) Top 10 2013-A7-Missing Function Level Access Control
+
+  * View details (address) of other user
+  * Change address/password for other user
+  * Delete another user
+
+1. Go to http://localhost:8080/
+2. Signup user 'anna'.
+3a. View user details of 'anna' by going to webpage 'http://localhost:8080/user?username=anna',
+no need to login (cases (2)-(5))
+3b. Change address and/or password for 'anna' by entering username and
+new details and clicking 'Submit' (case (3))
+3c. Delete user 'anna' by entering username and clicking 'Delete my account'.
+
+Fix: Remove the user?username=anna functionality completely, each user is logged
+in with no visible details in the URL. CSRF tokens should be enabled in all POST forms.
+
+#######################################################################################
+
+  (6) Top 10 2013-A8-Cross-Site Request Forgery (CSRF)
+
+1. CSRF tokens are globally disabled in all submission forms.
+
+Fix: Remove 'http.csrf().disable();' in SecurityConfiguration.java.
+
+#######################################################################################
+
+  (7) Top 10 2013-A3-Cross-Site Scripting (XSS)
+
+1. Go to http://localhost:8080/
+2. Assume user 'anna' is signed up and logged in.
+3. Attacker sends email to anna, containing an image with
+href=http://localhost:8080/deleteme?username=anna&submit
+When user clicks on image the user is unknowingly deleting his/her account and
+becomes logged out. In a more serious app (online bank) much more damage
+can be created for the user.
+
+Fix: The Java function
+
+@RequestMapping(value = "/deleteme")
+public String deleteMe(@RequestParam String username){...}
+
+should be changed to
+
+@RequestMapping(value = "/deleteme", method= RequestMethod.POST)
+public String deleteMe(@RequestParam String username){...}
+
+1. Go to http://localhost:8080/
+2. Signup user, with username <script>alert("Oops")</script> and password and
+address of choice. Click 'Submit', after which an alert window pops up. After
+closing that window the user is at the normal post-signup page.
+3. Although no hack of any user, this may potentially be used by clever hacker to
+tamper with the website.
+
+Fix: Change th:utext to th:text in the html file where the sign-up form is. The
+insecure 'utext' does not escape characters such as '<' and '>' (but 'text' seem
+to do it). With 'utext' things like <script>something</script> passes through
+unmodified, which provides an attack vector for hackers.
+
+
+
+

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Thank you!</title>
+    </head>
+    <body>
+
+        <p>Hello user </p><p th:utext="${username}"></p>
+        
+        <h1>Thank you! You have been signed up to the event!</h1>
+
+        <p>Proceed to login:</p>
+        <form th:action="@{/login}" method="get">
+            <input type="submit" value="Login"/>
+        </form>
+        
+    </body>
+</html>

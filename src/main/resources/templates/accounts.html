@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Account names</title>
+    </head>
+
+    <body>
+        <h1>Account names</h1>
+        
+        All account names:
+        <p th:each="item : ${list}">
+            <span th:text="${item}"></span>
+        </p>
+        
+        <p>Delete user:</p>
+        <form th:action="@{/deleteuser}" method="post">
+            <p>Username:<input type="text" name="username"></input></p>
+            <input type="submit" value="Delete this user"/>
+        </form>
+    </body>
+</html>
